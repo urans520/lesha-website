@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="乐莎美容旗下品牌，高品质美容化妆用具。">
+  <title>旗下品牌 | 广州市乐莎美容用具有限公司</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .brand-hero-wrap{text-align:center;padding:3rem 2rem}
+    .brand-hero-wrap .brand-logo{font-size:4rem;margin-bottom:1rem}
+    .brand-hero-wrap img{max-width:200px;max-height:120px;margin-bottom:1rem;object-fit:contain}
+    .brand-hero-wrap h2{font-size:2rem;color:var(--gold);margin-bottom:.5rem}
+  </style>
+</head>
+<body>
+<nav class="navbar">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-brand"><span class="brand-icon">乐</span>乐莎美容</a>
+    <button class="nav-toggle" aria-label="菜单"><span></span><span></span><span></span></button>
+    <ul class="nav-links">
+      <li><a href="index.html">首页</a></li>
+      <li><a href="products.html">产品中心</a></li>
+      <li><a href="brands.html">旗下品牌</a></li>
+      <li><a href="about.html">公司简介</a></li>
+      <li><a href="news.html">新闻资讯</a></li>
+      <li><a href="contact.html">联系我们</a></li>
+    </ul>
+  </div>
+</nav>
+
+<section class="page-banner">
+  <h1>旗下品牌</h1>
+  <span class="accent-line"></span>
+  <p style="color:var(--text-secondary);">品质为本 · 创新为魂</p>
+</section>
+
+<div id="brands-root">
+  <div class="loading" style="padding:4rem;text-align:center"><div class="loading-spinner"></div><p>加载中...</p></div>
+</div>
+
+<section class="section" style="background:var(--bg-surface);">
+  <div class="section-inner" style="text-align:center;">
+    <h2>合作共赢</h2>
+    <span class="accent-line" style="margin:0.8rem auto;"></span>
+    <p style="max-width:600px;margin:0 auto 2rem;color:var(--text-secondary);">我们提供OEM/ODM定制服务，从产品设计、包装印刷到生产制造，为您打造专属品牌。</p>
+    <a href="contact.html" class="btn btn-primary">立即咨询 →</a>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-brand"><h3 data-c="name">广州市乐莎美容用具有限公司</h3><span class="accent-line" style="margin:0.5rem 0 1rem;"></span><p data-c="desc">专业美容化妆用具制造商。</p></div>
+    <div class="footer-links"><h4>快速导航</h4><ul><li><a href="products.html">产品中心</a></li><li><a href="brands.html">旗下品牌</a></li><li><a href="about.html">公司简介</a></li><li><a href="news.html">新闻资讯</a></li><li><a href="contact.html">联系我们</a></li></ul></div>
+    <div class="footer-links"><h4>联系方式</h4><ul><li><a>📍 <span data-c="address">广州市白云区永兴上沙井西街四巷1号</span></a></li><li><a>📞 <span data-c="phone">+86 20-XXXXXXXX</span></a></li><li><a>📧 <span data-c="email">info@leshabeauty.com</span></a></li></ul></div>
+  </div>
+  <div class="footer-bottom"><p data-c="copyright">&copy; 2026 广州市乐莎美容用具有限公司. All Rights Reserved.</p></div>
+</footer>
+<button class="back-to-top" aria-label="回到顶部">↑</button>
+<script>
+// Inline loadBrands to avoid template-cloning issues
+(async function loadBrands(){
+  var root=document.getElementById('brands-root');
+  if(!root)return;
+  try{
+    var r=await fetch('data/brands.json');
+    if(!r.ok)throw new Error('fail');
+    var d=await r.json();
+    var brands=d.brands||[];
+    if(!brands.length){root.innerHTML='<div class="empty-state" style="padding:4rem;text-align:center"><div class="icon" style="font-size:3rem">👑</div><p>暂无品牌信息</p></div>';return;}
+    var catMap={cotton:{icon:'🧻',name:'化妆棉',desc:'无纺布/纯棉系列'},swab:{icon:'🪥',name:'棉签',desc:'纯棉双头系列'},puff:{icon:'💨',name:'粉扑',desc:'丝绒/硅胶系列'},blender:{icon:'🥚',name:'美妆蛋',desc:'亲水性聚氨酯'},eyebrow:{icon:'✂️',name:'眉刀眉剪',desc:'不锈钢系列'},bottle:{icon:'💧',name:'喷雾瓶',desc:'PET透明系列'},hair:{icon:'💇',name:'卷发工具',desc:'刘海卷发筒'}};
+    var html='';
+    brands.forEach(function(b,i){
+      var feats=(b.features||[]).map(function(f,j){
+        var emoji=['💎','🎯','🤝','🌍','⭐','🔬','🏆','💡'][j]||'✨';
+        var desc=(b.featureDescs||[])[j]||'';
+        return '<div class="product-card reveal"><div class="product-card-body" style="text-align:center;padding:2rem"><div style="font-size:2.5rem;margin-bottom:1rem">'+emoji+'</div><h3>'+f+'</h3><span class="accent-line" style="margin:0.8rem auto 1rem"></span><p>'+desc+'</p></div></div>';
+      }).join('');
+      var cats=(b.categories||[]).map(function(cat){
+        var m=catMap[cat]||{icon:'📦',name:cat,desc:''};
+        return '<a href="products.html?category='+cat+'" class="product-card reveal" style="text-decoration:none;color:inherit"><div class="product-card-body" style="text-align:center;padding:1.5rem"><div style="font-size:2rem;margin-bottom:.8rem">'+m.icon+'</div><h4>'+m.name+'</h4><p style="font-size:.85rem;color:var(--text-secondary)">'+m.desc+'</p></div></a>';
+      }).join('')+'<a href="contact.html" class="product-card reveal" style="text-decoration:none;color:inherit"><div class="product-card-body" style="text-align:center;padding:1.5rem;border:1px dashed var(--border-gold);border-radius:8px"><div style="font-size:2rem;margin-bottom:.8rem">📦</div><h4>OEM/ODM定制</h4><p style="font-size:.85rem;color:var(--text-secondary)">贴牌代工服务</p></div></a>';
+      var brandImg=b.image?'<img src="'+b.image+'" alt="'+b.name+'">':'<div style="font-size:4rem;margin-bottom:1rem">👑</div>';
+      html+='<section class="section"><div class="section-inner"><div class="about-grid reveal"><div class="about-image" style="min-height:380px;display:flex;align-items:center;justify-content:center;background:var(--bg-surface);border-radius:12px;overflow:hidden"><div class="brand-hero-wrap">'+brandImg+'<h2 style="font-size:2rem;color:var(--gold);margin-bottom:.5rem">'+b.name+'</h2><p style="color:var(--text-secondary)">'+(b.slogan||'')+'</p></div></div><div class="about-text"><h3>品牌故事</h3><span class="accent-line"></span><p>'+(b.description||'')+'</p></div></div></div></section>'+
+      '<section class="section" style="background:var(--bg-surface)"><div class="section-inner"><div class="section-header reveal"><h2>品牌理念</h2><span class="accent-line"></span><p>用心做好每一款产品</p></div><div class="products-grid" style="grid-template-columns:repeat(auto-fill,minmax(260px,1fr))">'+feats+'</div></div></section>'+
+      '<section class="section"><div class="section-inner"><div class="section-header reveal"><h2>产品系列</h2><span class="accent-line"></span><p>覆盖化妆辅助 · 护肤清洁 · 发型造型全品类</p></div><div class="products-grid" style="grid-template-columns:repeat(auto-fill,minmax(200px,1fr))">'+cats+'</div></div></section>';
+    });
+    root.innerHTML=html;
+    // Re-trigger scroll reveal
+    setTimeout(function(){
+      document.querySelectorAll('.reveal').forEach(function(el){
+        el.classList.add('visible');
+      });
+    },100);
+  }catch(e){
+    root.innerHTML='<div class="empty-state" style="padding:4rem;text-align:center"><div class="icon" style="font-size:3rem">👑</div><p>品牌信息加载失败</p></div>';
+    console.error(e);
+  }
+})();
+</script>
+<script src="js/main.js"></script>
+</body>
+</html>

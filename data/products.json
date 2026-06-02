@@ -1,0 +1,112 @@
+{
+  "products": [
+    {
+      "id": 1,
+      "name": "228片三层加厚无纺布化妆棉",
+      "category": "cotton",
+      "categoryName": "化妆棉",
+      "description": "三层加厚无纺布材质，双面省水设计，不掉絮，柔软亲肤，适合日常卸妆及护肤使用。",
+      "spec": "228片/盒",
+      "image": ""
+    },
+    {
+      "id": 2,
+      "name": "双头纯棉棉签 500支装",
+      "category": "swab",
+      "categoryName": "棉签",
+      "description": "100%纯棉双头设计，纸轴环保材质，不掉棉絮，适合化妆补妆、婴儿护理及日常清洁。",
+      "spec": "500支/盒",
+      "image": ""
+    },
+    {
+      "id": 3,
+      "name": "干湿两用美妆蛋套装",
+      "category": "blender",
+      "categoryName": "美妆蛋",
+      "description": "亲水性聚氨酯材质，遇水膨胀柔软Q弹，上妆服帖不卡粉，多种形状满足全脸需求。",
+      "spec": "3个/套",
+      "image": ""
+    },
+    {
+      "id": 4,
+      "name": "丝绒蜜粉扑 大号散粉扑",
+      "category": "puff",
+      "categoryName": "粉扑",
+      "description": "进口丝绒面料，绒毛细腻均匀，抓粉力强，释放均匀，定妆自然服帖，可反复清洗使用。",
+      "spec": "直径7cm",
+      "image": ""
+    },
+    {
+      "id": 5,
+      "name": "安全防护眉刀 3把装",
+      "category": "eyebrow",
+      "categoryName": "眉刀眉剪",
+      "description": "不锈钢刀片+防护网设计，锋利耐用不伤皮肤，弯头设计贴合眉骨，轻松修出精致眉形。",
+      "spec": "3把/套",
+      "image": ""
+    },
+    {
+      "id": 6,
+      "name": "女人传说透明喷雾瓶 100ml",
+      "category": "bottle",
+      "categoryName": "喷雾瓶",
+      "description": "PET透明瓶身，超细雾化喷头，出雾均匀细腻，密封防漏设计，适合化妆水、爽肤水分装。",
+      "spec": "50/75/100ml",
+      "image": ""
+    },
+    {
+      "id": 7,
+      "name": "空气刘海卷发筒 3个装",
+      "category": "hair",
+      "categoryName": "卷发工具",
+      "description": "双层设计固定更牢固，自带粘扣无需额外夹子，适合空气刘海及发尾造型，懒人必备。",
+      "spec": "3个/套",
+      "image": ""
+    },
+    {
+      "id": 8,
+      "name": "气垫粉扑圆形替换装",
+      "category": "puff",
+      "categoryName": "粉扑",
+      "description": "高密度聚氨酯材质，不吃粉底液，均匀上妆不卡纹，适合各类气垫BB霜替换使用。",
+      "spec": "直径5.5cm",
+      "image": ""
+    },
+    {
+      "id": 9,
+      "name": "美容修眉剪刀 弯头",
+      "category": "eyebrow",
+      "categoryName": "眉刀眉剪",
+      "description": "不锈钢精密刀口，弯头设计精准修剪，手感舒适，适合眉部及面部细小毛发修剪。",
+      "spec": "单把装",
+      "image": ""
+    },
+    {
+      "id": 10,
+      "name": "纯棉洁面巾 一次性洗脸巾",
+      "category": "cotton",
+      "categoryName": "化妆棉",
+      "description": "加厚珍珠纹纯棉材质，干湿两用不掉絮，替代毛巾更卫生，适合洁面、卸妆、宝宝护理。",
+      "spec": "60抽/包",
+      "image": ""
+    },
+    {
+      "id": 11,
+      "name": "迷你便携旅行喷雾瓶套装",
+      "category": "bottle",
+      "categoryName": "喷雾瓶",
+      "description": "30ml迷你装，航空便携无压力，多种颜色可选，适合旅行出差分装化妆品。",
+      "spec": "30ml/个",
+      "image": ""
+    },
+    {
+      "id": 12,
+      "name": "硅胶洗脸扑 洁面扑",
+      "category": "puff",
+      "categoryName": "粉扑",
+      "description": "食品级硅胶材质，柔软Q弹易起泡，深层清洁毛孔，不易滋生细菌，可高温消毒。",
+      "spec": "单只装",
+      "image": ""
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "primary": "#ffd35c",
+  "primaryLight": "#ffd35c",
+  "bg": "#0f0f1a",
+  "bgCard": "#1a1a2e",
+  "bgSurface": "#16162a",
+  "bgFooter": "#0a0a14",
+  "bannerBg": "#0f0f1a",
+  "navbarBg": "#0f0f1a",
+  "textPrimary": "#e2e8f0",
+  "textSecondary": "#94a3b8",
+  "logo": "/images/uploads/logo_1780385309241.png"
+}

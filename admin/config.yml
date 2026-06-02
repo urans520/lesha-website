@@ -1,0 +1,85 @@
+backend:
+  name: git-gateway
+  branch: main
+
+media_folder: "images/uploads"
+public_folder: "/images/uploads"
+locale: "zh_Hans"
+
+collections:
+  - name: "products"
+    label: "产品管理"
+    label_singular: "产品"
+    folder: "data"
+    extension: "json"
+    format: "json"
+    create: false
+    editor:
+      preview: false
+    fields:
+      - label: "产品列表"
+        name: "products"
+        widget: "list"
+        fields:
+          - { label: "产品名称", name: "name", widget: "string" }
+          - { label: "分类标识", name: "category", widget: "select", options:
+              [{ label: "化妆棉", value: "cotton" },
+               { label: "棉签", value: "swab" },
+               { label: "粉扑", value: "puff" },
+               { label: "美妆蛋", value: "blender" },
+               { label: "眉刀眉剪", value: "eyebrow" },
+               { label: "喷雾瓶", value: "bottle" },
+               { label: "卷发工具", value: "hair" }] }
+          - { label: "分类名称", name: "categoryName", widget: "string" }
+          - { label: "产品描述", name: "description", widget: "text" }
+          - { label: "规格", name: "spec", widget: "string" }
+          - { label: "产品图片", name: "image", widget: "image", required: false }
+
+  - name: "news"
+    label: "新闻资讯"
+    label_singular: "新闻"
+    folder: "data"
+    extension: "json"
+    format: "json"
+    create: false
+    editor:
+      preview: false
+    fields:
+      - label: "新闻列表"
+        name: "news"
+        widget: "list"
+        fields:
+          - { label: "日期", name: "date", widget: "date" }
+          - { label: "标题", name: "title", widget: "string" }
+          - { label: "摘要", name: "summary", widget: "text" }
+          - { label: "链接", name: "link", widget: "string", required: false }
+
+  - name: "company"
+    label: "公司信息"
+    label_singular: "公司信息"
+    folder: "data"
+    extension: "json"
+    format: "json"
+    create: false
+    editor:
+      preview: false
+    fields:
+      - { label: "公司名称", name: "name", widget: "string" }
+      - { label: "英文名称", name: "nameEn", widget: "string" }
+      - { label: "品牌名称", name: "brand", widget: "string" }
+      - { label: "公司简介（简短）", name: "description", widget: "text" }
+      - { label: "公司简介（详细）", name: "descriptionFull", widget: "text" }
+      - { label: "公司地址", name: "address", widget: "string" }
+      - { label: "电话", name: "phone", widget: "string" }
+      - { label: "邮箱", name: "email", widget: "string" }
+      - { label: "网站/店铺", name: "website", widget: "string" }
+      - label: "数据统计"
+        name: "stats"
+        widget: "list"
+        fields:
+          - { label: "数值", name: "number", widget: "string" }
+          - { label: "标签", name: "label", widget: "string" }
+      - label: "资质认证"
+        name: "certifications"
+        widget: "list"
+        field: { label: "认证名称", name: "cert", widget: "string" }

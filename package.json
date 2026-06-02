@@ -1,0 +1,12 @@
+{
+  "name": "lesha-website",
+  "version": "1.0.0",
+  "description": "广州市乐莎美容用具有限公司 - 企业官网",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "init": "node init.js"
+  },
+  "keywords": ["lesha", "beauty", "website"],
+  "license": "UNLICENSED"
+}

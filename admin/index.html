@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>后台管理 | 乐莎美容</title>
+<style>
+:root{--bg:#0f1923;--card:#1a2740;--surface:#152032;--gold:#c9a96e;--gold-light:#d4af37;--text:#e8e3dc;--text2:#8b9dc3;--border:rgba(201,169,110,0.15);--border-gold:rgba(201,169,110,0.35);--danger:#e74c3c;--success:#2ecc71;--warning:#f39c12}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans SC',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+.layout{display:flex;min-height:100vh}
+.sidebar{width:240px;background:var(--card);border-right:1px solid var(--border);padding:1.5rem 0;position:fixed;top:0;left:0;bottom:0;overflow-y:auto;z-index:100}
+.sidebar-brand{padding:0 1.5rem 1.5rem;border-bottom:1px solid var(--border);margin-bottom:1rem;font-size:1.1rem;font-weight:700;color:var(--gold)}
+.sidebar-brand small{display:block;font-weight:400;font-size:.75rem;color:var(--text2);margin-top:.25rem}
+.nav-item{display:flex;align-items:center;gap:.75rem;padding:.75rem 1.5rem;color:var(--text2);cursor:pointer;transition:all .2s;border:none;background:none;width:100%;text-align:left;font-size:.9rem;font-family:inherit}
+.nav-item:hover{background:rgba(201,169,110,.06);color:var(--text)}
+.nav-item.active{background:rgba(201,169,110,.1);color:var(--gold);border-right:2px solid var(--gold)}
+.nav-icon{font-size:1.1rem;width:20px;text-align:center}
+.main{margin-left:240px;flex:1;padding:2rem}
+.main-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:2rem}
+.main-header h2{font-size:1.5rem}
+.btn{display:inline-flex;align-items:center;gap:.4rem;padding:.6rem 1.2rem;border-radius:6px;font-size:.85rem;font-weight:500;cursor:pointer;transition:all .2s;border:none;font-family:inherit}
+.btn-gold{background:linear-gradient(135deg,var(--gold),#a08840);color:var(--bg)}
+.btn-gold:hover{box-shadow:0 4px 16px rgba(201,169,110,.3);transform:translateY(-1px)}
+.btn-outline{background:transparent;border:1px solid var(--border-gold);color:var(--gold)}
+.btn-outline:hover{background:rgba(201,169,110,.08)}
+.btn-danger{background:var(--danger);color:#fff}
+.btn-danger:hover{opacity:.9}
+.btn-sm{padding:.35rem .75rem;font-size:.8rem}
+.card{background:var(--card);border:1px solid var(--border);border-radius:8px;overflow:hidden}
+.card-header{padding:1rem 1.5rem;border-bottom:1px solid var(--border);font-weight:600;display:flex;justify-content:space-between;align-items:center}
+table{width:100%;border-collapse:collapse}
+th{padding:.75rem 1.5rem;text-align:left;font-size:.8rem;color:var(--text2);text-transform:uppercase;letter-spacing:.05em;border-bottom:1px solid var(--border);background:var(--surface)}
+td{padding:.75rem 1.5rem;border-bottom:1px solid var(--border);font-size:.9rem}
+tr:hover td{background:rgba(201,169,110,.03)}
+.badge{display:inline-block;padding:.15rem .6rem;border-radius:50px;font-size:.75rem;background:rgba(201,169,110,.1);color:var(--gold);border:1px solid var(--border)}
+.text-muted{color:var(--text2);font-size:.85rem}
+.form-section{display:none}
+.form-section.active{display:block}
+.form-group{margin-bottom:1rem}
+.form-group label{display:block;font-size:.85rem;color:var(--text2);margin-bottom:.35rem}
+.form-group input,.form-group textarea,.form-group select{width:100%;padding:.65rem .85rem;background:var(--surface);border:1px solid var(--border);border-radius:6px;color:var(--text);font-family:inherit;font-size:.9rem;resize:vertical}
+.form-group input:focus,.form-group textarea:focus,.form-group select:focus{outline:none;border-color:var(--gold)}
+.form-group textarea{min-height:80px}
+.form-actions{display:flex;gap:.75rem;justify-content:flex-end;margin-top:1.5rem;padding-top:1.5rem;border-top:1px solid var(--border)}
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:2rem}
+.stat-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:1.25rem}
+.stat-card .stat-num{font-size:1.8rem;font-weight:700;color:var(--gold)}
+.stat-card .stat-label{font-size:.8rem;color:var(--text2);margin-top:.25rem}
+.toast{position:fixed;top:1rem;right:1rem;padding:.75rem 1.25rem;border-radius:8px;color:#fff;font-size:.9rem;z-index:9999;animation:slideIn .3s ease-out;box-shadow:0 4px 20px rgba(0,0,0,.4)}
+.toast.success{background:var(--success)}
+.toast.error{background:var(--danger)}
+.color-item{border:1px solid var(--border);border-radius:8px;padding:1rem}
+.color-item label{display:block;font-size:.85rem;color:var(--text2);margin-bottom:.5rem}
+.color-item small{display:block;font-size:.75rem;color:var(--text2);margin-top:.5rem;opacity:.7}
+.color-row{display:flex;align-items:center;gap:.75rem}
+.color-row input[type="color"]{width:40px;height:40px;border:2px solid var(--border);border-radius:6px;cursor:pointer;padding:2px;background:transparent}
+.color-row input[type="color"]::-webkit-color-swatch-wrapper{padding:0}
+.color-row input[type="color"]::-webkit-color-swatch{border:none;border-radius:4px}
+.color-hex{font-family:monospace;font-size:.85rem;color:var(--text)}
+.preset-card{transition:all .2s}
+.preset-card:hover{border-color:var(--gold)!important;background:rgba(201,169,110,.06)}
+@keyframes slideIn{from{transform:translateX(100%);opacity:0}to{transform:translateX(0);opacity:1}}
+@media(max-width:768px){.sidebar{width:60px}.sidebar .nav-item span:not(.nav-icon){display:none}.sidebar-brand{font-size:0;text-align:center}.sidebar-brand small{display:none}.main{margin-left:60px;padding:1rem}.stats-grid{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<div class="layout">
+<aside class="sidebar">
+<div class="sidebar-brand">乐莎美容<small>后台管理系统</small></div>
+<nav>
+<button class="nav-item active" data-page="dashboard"><span class="nav-icon">📊</span><span>控制台</span></button>
+<button class="nav-item" data-page="products"><span class="nav-icon">📦</span><span>产品管理</span></button>
+<button class="nav-item" data-page="brands"><span class="nav-icon">👑</span><span>品牌管理</span></button>
+<button class="nav-item" data-page="news"><span class="nav-icon">📰</span><span>新闻管理</span></button>
+<button class="nav-item" data-page="company"><span class="nav-icon">🏢</span><span>公司信息</span></button>
+<button class="nav-item" data-page="inquiries"><span class="nav-icon">📩</span><span>客户咨询</span></button>
+<button class="nav-item" data-page="theme"><span class="nav-icon">🎨</span><span>主题设置</span></button>
+<button class="nav-item" onclick="window.open('/','_blank')"><span class="nav-icon">🌐</span><span>查看网站 →</span></button>
+</nav>
+</aside>
+<main class="main">
+<div id="page-dashboard" class="form-section active">
+<div class="main-header"><h2>📊 控制台</h2></div>
+<div class="stats-grid" id="dash-stats"></div>
+<div class="card"><div class="card-header">📋 快速操作</div>
+<div style="padding:1.5rem;display:flex;gap:1rem;flex-wrap:wrap">
+<button class="btn btn-gold" onclick="switchPage('products');setTimeout(addProduct,100)">➕ 添加新产品</button>
+<button class="btn btn-outline" onclick="switchPage('news');setTimeout(addNews,100)">📝 发布新闻</button>
+<button class="btn btn-outline" onclick="switchPage('company')">🏢 编辑公司信息</button>
+<button class="btn btn-outline" onclick="window.open('/','_blank')">🌐 预览网站</button>
+</div></div>
+</div>
+
+<div id="page-products" class="form-section">
+<div class="main-header"><h2>📦 产品管理</h2><button class="btn btn-gold" onclick="addProduct()">➕ 添加产品</button></div>
+<div class="card"><table><thead><tr><th>ID</th><th>产品名称</th><th>分类</th><th>规格</th><th style="width:180px">操作</th></tr></thead><tbody id="products-table"></tbody></table></div>
+<div id="product-form" style="display:none;margin-top:1.5rem" class="card">
+<div class="card-header"><span id="product-form-title">添加产品</span></div>
+<div style="padding:1.5rem">
+<input type="hidden" id="prod-edit-id">
+<div class="form-group"><label>产品名称 *</label><input id="prod-name" placeholder="例：228片三层加厚无纺布化妆棉"></div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+<div class="form-group"><label>分类 *</label><select id="prod-category"><option value="cotton">化妆棉</option><option value="swab">棉签</option><option value="puff">粉扑</option><option value="blender">美妆蛋</option><option value="eyebrow">眉刀眉剪</option><option value="bottle">喷雾瓶</option><option value="hair">卷发工具</option></select></div>
+<div class="form-group"><label>规格</label><input id="prod-spec" placeholder="例：228片/盒"></div>
+</div>
+<div class="form-group"><label>产品描述</label><textarea id="prod-desc" placeholder="产品描述文字..."></textarea></div>
+<div class="form-group"><label>图片路径（可选）</label><input id="prod-image" placeholder="images/uploads/xxx.jpg"></div>
+<div class="form-actions"><button class="btn btn-outline" onclick="cancelProductForm()">取消</button><button class="btn btn-gold" onclick="saveProduct()">💾 保存</button></div>
+</div></div>
+</div>
+
+<div id="page-brands" class="form-section">
+<div class="main-header"><h2>👑 品牌管理</h2><button class="btn btn-gold" onclick="addBrand()">➕ 添加品牌</button></div>
+<div class="card"><table><thead><tr><th>ID</th><th>品牌名称</th><th>英文名</th><th>口号</th><th style="width:180px">操作</th></tr></thead><tbody id="brands-table"></tbody></table></div>
+<div id="brand-form" style="display:none;margin-top:1.5rem" class="card">
+<div class="card-header"><span id="brand-form-title">添加品牌</span></div>
+<div style="padding:1.5rem">
+<input type="hidden" id="brand-edit-id">
+<div class="form-group"><label>品牌名称 *</label><input id="brand-name" placeholder="例：女人传说"></div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+<div class="form-group"><label>英文名称</label><input id="brand-nameEn" placeholder="Legend of Women"></div>
+<div class="form-group"><label>品牌口号</label><input id="brand-slogan" placeholder="让美丽变得更简单"></div>
+</div>
+<div class="form-group"><label>品牌描述</label><textarea id="brand-desc" rows="3" placeholder="品牌描述文字..."></textarea></div>
+<div class="form-group"><label>品牌特点（逗号分隔）</label><input id="brand-features" placeholder="品质至上, 专注专业, 高性价比, 全球视野"></div>
+<div class="form-group"><label>特点描述（逗号分隔，与上方一一对应）</label><textarea id="brand-featureDescs" rows="2" placeholder="精选优质原材料..., 深耕美容领域..., 源头工厂直供..., 产品远销全球..."></textarea></div>
+<div class="form-group"><label>产品分类（逗号分隔，英文key）</label><input id="brand-categories" placeholder="cotton, swab, puff, blender, eyebrow, bottle, hair"></div>
+<div class="form-group"><label>品牌图片路径（可选）</label><input id="brand-image" placeholder="images/uploads/brand-xxx.jpg"></div>
+<div class="form-actions"><button class="btn btn-outline" onclick="cancelBrandForm()">取消</button><button class="btn btn-gold" onclick="saveBrand()">💾 保存</button></div>
+</div></div>
+</div>
+
+<div id="page-news" class="form-section">
+<div class="main-header"><h2>📰 新闻管理</h2><button class="btn btn-gold" onclick="addNews()">➕ 发布新闻</button></div>
+<div class="card"><table><thead><tr><th>日期</th><th>标题</th><th>摘要</th><th style="width:120px">操作</th></tr></thead><tbody id="news-table"></tbody></table></div>
+<div id="news-form" style="display:none;margin-top:1.5rem" class="card">
+<div class="card-header"><span id="news-form-title">发布新闻</span></div>
+<div style="padding:1.5rem">
+<input type="hidden" id="news-edit-id">
+<div class="form-group"><label>日期 *</label><input type="date" id="news-date"></div>
+<div class="form-group"><label>标题 *</label><input id="news-title" placeholder="新闻标题..."></div>
+<div class="form-group"><label>摘要</label><textarea id="news-summary" placeholder="新闻摘要..."></textarea></div>
+<div class="form-actions"><button class="btn btn-outline" onclick="cancelNewsForm()">取消</button><button class="btn btn-gold" onclick="saveNews()">💾 保存</button></div>
+</div></div>
+</div>
+
+<div id="page-company" class="form-section">
+<div class="main-header"><h2>🏢 公司信息</h2></div>
+<div class="card"><div style="padding:1.5rem" id="company-form-container"></div></div>
+</div>
+
+<div id="page-inquiries" class="form-section">
+<div class="main-header"><h2>📩 客户咨询</h2></div>
+<div class="card"><table><thead><tr><th>时间</th><th>姓名</th><th>公司</th><th>邮箱</th><th>感兴趣产品</th><th>留言</th></tr></thead><tbody id="inquiries-table"></tbody></table></div>
+</div>
+
+<div id="page-theme" class="form-section">
+<div class="main-header"><h2>🎨 主题设置</h2></div>
+<div class="card" style="margin-bottom:1.5rem">
+<div class="card-header">🖼 Logo 设置</div>
+<div style="padding:1.5rem;display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap">
+<div id="logo-preview" style="width:64px;height:64px;border-radius:8px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;background:var(--surface);overflow:hidden;flex-shrink:0"><span style="font-size:1.5rem;color:var(--gold);font-weight:700">乐</span></div>
+<div style="flex:1;min-width:200px">
+<p style="margin-bottom:.5rem;font-size:.9rem">上传 PNG/JPG 图片替换文字 Logo（建议 128×128 以上）</p>
+<input type="file" id="logo-input" accept="image/png,image/jpeg,image/webp" style="margin-bottom:.5rem">
+<div style="display:flex;gap:.5rem">
+<button class="btn btn-gold btn-sm" onclick="uploadLogo()">📤 上传</button>
+<button class="btn btn-outline btn-sm" onclick="removeLogo()" id="btn-remove-logo" style="display:none">✕ 清除 Logo</button>
+</div>
+</div>
+</div></div>
+<div class="card" style="margin-bottom:1.5rem">
+<div class="card-header">🎨 预设主题</div>
+<div style="padding:1.5rem;display:flex;gap:.75rem;flex-wrap:wrap" id="preset-themes"></div></div>
+<div class="card"><div class="card-header">🎨 自定义颜色 <span style="font-weight:400;font-size:.8rem;color:var(--text2);margin-left:.5rem">点击色块调色</span></div>
+<div style="padding:1.5rem">
+<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.5rem">
+<div class="color-item"><label>主色调</label><div class="color-row"><input type="color" id="t-primary" value="#c9a96e"><span class="color-hex" id="hex-primary">#c9a96e</span></div><small>按钮、强调元素、金色装饰</small></div>
+<div class="color-item"><label>辅助色</label><div class="color-row"><input type="color" id="t-primaryLight" value="#d4af37"><span class="color-hex" id="hex-primaryLight">#d4af37</span></div><small>悬停效果、高亮</small></div>
+<div class="color-item"><label>页面背景</label><div class="color-row"><input type="color" id="t-bg" value="#0f1923"><span class="color-hex" id="hex-bg">#0f1923</span></div><small>主背景色</small></div>
+<div class="color-item"><label>卡片背景</label><div class="color-row"><input type="color" id="t-bgCard" value="#1a2740"><span class="color-hex" id="hex-bgCard">#1a2740</span></div><small>卡片、面板背景</small></div>
+<div class="color-item"><label>区块背景</label><div class="color-row"><input type="color" id="t-bgSurface" value="#152032"><span class="color-hex" id="hex-bgSurface">#152032</span></div><small>交替区块背景</small></div>
+<div class="color-item"><label>页脚背景</label><div class="color-row"><input type="color" id="t-bgFooter" value="#0a121b"><span class="color-hex" id="hex-bgFooter">#0a121b</span></div><small>底部区域背景</small></div>
+<div class="color-item"><label>页首背景</label><div class="color-row"><input type="color" id="t-bannerBg" value="#0f1923"><span class="color-hex" id="hex-bannerBg">#0f1923</span></div><small>首页Hero和内页Banner背景</small></div>
+<div class="color-item"><label>导航栏背景</label><div class="color-row"><input type="color" id="t-navbarBg" value="#0f1923"><span class="color-hex" id="hex-navbarBg">#0f1923</span></div><small>顶部导航栏背景色</small></div>
+<div class="color-item"><label>文字颜色</label><div class="color-row"><input type="color" id="t-textPrimary" value="#e8e3dc"><span class="color-hex" id="hex-textPrimary">#e8e3dc</span></div><small>正文标题文字</small></div>
+<div class="color-item"><label>次要文字</label><div class="color-row"><input type="color" id="t-textSecondary" value="#8b9dc3"><span class="color-hex" id="hex-textSecondary">#8b9dc3</span></div><small>辅助说明文字</small></div>
+</div>
+<div class="form-actions">
+<a href="/" target="_blank" class="btn btn-outline" style="margin-right:auto">👁 预览网站</a>
+<button class="btn btn-gold" onclick="applyThemePreview()">👁 预览效果</button>
+<button class="btn btn-gold" onclick="saveTheme()">💾 保存主题</button>
+</div></div></div>
+</div>
+</main>
+</div>
+<div id="toast" class="toast" style="display:none"></div>
+
+<script>
+let currentData={products:[],news:[],company:{},inquiries:[],brands:[]};
+
+document.querySelectorAll('.nav-item[data-page]').forEach(b=>b.addEventListener('click',()=>switchPage(b.dataset.page)));
+
+function switchPage(page){
+document.querySelectorAll('.nav-item[data-page]').forEach(b=>b.classList.remove('active'));
+document.querySelector('.nav-item[data-page="'+page+'"]')?.classList.add('active');
+document.querySelectorAll('.form-section').forEach(s=>s.classList.remove('active'));
+document.getElementById('page-'+page)?.classList.add('active');
+loadPageData(page);cancelProductForm();cancelNewsForm();cancelBrandForm();
+}
+
+function showToast(msg,type='success'){
+const t=document.getElementById('toast');t.textContent=msg;t.className='toast '+type;t.style.display='block';
+setTimeout(()=>t.style.display='none',2500);
+}
+
+async function loadAllData(){
+const[p,n,c,i,b]=await Promise.all([fetch('/api/products').then(r=>r.json()),fetch('/api/news').then(r=>r.json()),fetch('/api/company').then(r=>r.json()),fetch('/api/inquiries').then(r=>r.json()),fetch('/api/brands').then(r=>r.json())]);
+currentData.products=p.products||[];currentData.news=n.news||[];currentData.company=c;currentData.inquiries=i.inquiries||[];currentData.brands=b.brands||[];
+await loadThemeData();
+}
+function loadPageData(page){
+if(page==='dashboard')renderDashboard();
+else if(page==='products')renderProducts();
+else if(page==='news')renderNews();
+else if(page==='company')renderCompanyForm();
+else if(page==='inquiries')renderInquiries();
+else if(page==='theme')renderThemePage();
+else if(page==='brands')renderBrands();
+}
+
+function renderDashboard(){
+document.getElementById('dash-stats').innerHTML=
+'<div class="stat-card"><div class="stat-num">'+currentData.products.length+'</div><div class="stat-label">产品数量</div></div>'+
+'<div class="stat-card"><div class="stat-num">'+currentData.news.length+'</div><div class="stat-label">新闻数量</div></div>'+
+'<div class="stat-card"><div class="stat-num">'+currentData.inquiries.length+'</div><div class="stat-label">客户咨询</div></div>'+
+'<div class="stat-card"><div class="stat-num">'+(currentData.company.certifications?.length||0)+'</div><div class="stat-label">资质认证</div></div>';
+}
+
+function renderProducts(){
+const m={cotton:'化妆棉',swab:'棉签',puff:'粉扑',blender:'美妆蛋',eyebrow:'眉刀眉剪',bottle:'喷雾瓶',hair:'卷发工具'};
+document.getElementById('products-table').innerHTML=currentData.products.map((p,i)=>'<tr><td>'+(p.id||i+1)+'</td><td>'+esc(p.name)+'</td><td><span class="badge">'+(p.categoryName||m[p.category]||p.category)+'</span></td><td>'+(p.spec||'-')+'</td><td><button class="btn btn-outline btn-sm" onclick="editProduct('+i+')">✏️ 编辑</button> <button class="btn btn-danger btn-sm" onclick="deleteProduct('+i+')">🗑 删除</button></td></tr>').join('')||'<tr><td colspan="5" class="text-muted" style="text-align:center;padding:2rem">暂无产品</td></tr>';
+}
+function addProduct(){
+document.getElementById('prod-edit-id').value='';document.getElementById('prod-name').value='';
+document.getElementById('prod-category').value='cotton';document.getElementById('prod-spec').value='';
+document.getElementById('prod-desc').value='';document.getElementById('prod-image').value='';
+document.getElementById('product-form-title').textContent='添加产品';
+document.getElementById('product-form').style.display='block';
+document.getElementById('product-form').scrollIntoView({behavior:'smooth'});
+}
+function editProduct(i){
+const p=currentData.products[i];document.getElementById('prod-edit-id').value=i;
+document.getElementById('prod-name').value=p.name;document.getElementById('prod-category').value=p.category;
+document.getElementById('prod-spec').value=p.spec||'';document.getElementById('prod-desc').value=p.description||'';
+document.getElementById('prod-image').value=p.image||'';document.getElementById('product-form-title').textContent='编辑产品';
+document.getElementById('product-form').style.display='block';document.getElementById('product-form').scrollIntoView({behavior:'smooth'});
+}
+function deleteProduct(i){if(!confirm('确定删除？'))return;currentData.products.splice(i,1);saveProductsData();}
+function cancelProductForm(){document.getElementById('product-form').style.display='none';}
+async function saveProduct(){
+const idx=document.getElementById('prod-edit-id').value;
+const cat=document.getElementById('prod-category').value;
+const m={cotton:'化妆棉',swab:'棉签',puff:'粉扑',blender:'美妆蛋',eyebrow:'眉刀眉剪',bottle:'喷雾瓶',hair:'卷发工具'};
+const p={id:idx===''?currentData.products.length+1:currentData.products[idx].id,name:document.getElementById('prod-name').value,category:cat,categoryName:m[cat]||cat,description:document.getElementById('prod-desc').value,spec:document.getElementById('prod-spec').value,image:document.getElementById('prod-image').value};
+if(!p.name){showToast('请输入产品名称','error');return}
+if(idx==='')currentData.products.push(p);else currentData.products[parseInt(idx)]=p;
+await saveProductsData();cancelProductForm();
+}
+async function saveProductsData(){
+await fetch('/api/products',{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({products:currentData.products})});
+renderProducts();showToast('产品数据已保存 ✅');
+}
+
+function renderNews(){
+document.getElementById('news-table').innerHTML=currentData.news.map((n,i)=>'<tr><td>'+n.date+'</td><td>'+esc(n.title)+'</td><td style="max-width:300px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+esc(n.summary)+'</td><td><button class="btn btn-outline btn-sm" onclick="editNews('+i+')">✏️</button> <button class="btn btn-danger btn-sm" onclick="deleteNews('+i+')">🗑</button></td></tr>').join('')||'<tr><td colspan="4" class="text-muted" style="text-align:center;padding:2rem">暂无新闻</td></tr>';
+}
+function addNews(){
+document.getElementById('news-edit-id').value='';document.getElementById('news-date').value=new Date().toISOString().split('T')[0];
+document.getElementById('news-title').value='';document.getElementById('news-summary').value='';
+document.getElementById('news-form-title').textContent='发布新闻';
+document.getElementById('news-form').style.display='block';document.getElementById('news-form').scrollIntoView({behavior:'smooth'});
+}
+function editNews(i){
+const n=currentData.news[i];document.getElementById('news-edit-id').value=i;
+document.getElementById('news-date').value=n.date;document.getElementById('news-title').value=n.title;
+document.getElementById('news-summary').value=n.summary;document.getElementById('news-form-title').textContent='编辑新闻';
+document.getElementById('news-form').style.display='block';document.getElementById('news-form').scrollIntoView({behavior:'smooth'});
+}
+function deleteNews(i){if(!confirm('确定删除？'))return;currentData.news.splice(i,1);saveNewsData();}
+function cancelNewsForm(){document.getElementById('news-form').style.display='none';}
+async function saveNews(){
+const idx=document.getElementById('news-edit-id').value;
+const n={id:idx===''?currentData.news.length+1:currentData.news[idx].id,date:document.getElementById('news-date').value,title:document.getElementById('news-title').value,summary:document.getElementById('news-summary').value,link:'#'};
+if(!n.title){showToast('请输入新闻标题','error');return}
+if(idx==='')currentData.news.unshift(n);else currentData.news[parseInt(idx)]=n;
+await saveNewsData();cancelNewsForm();
+}
+async function saveNewsData(){
+await fetch('/api/news',{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({news:currentData.news})});
+renderNews();showToast('新闻数据已保存 ✅');
+}
+
+function renderCompanyForm(){
+const c=currentData.company;
+const stats=(c.stats||[]).map((s,i)=>'<div style="display:flex;gap:.5rem;margin-bottom:.5rem"><input value="'+esc(s.number||'')+'" data-stat-number="'+i+'" placeholder="数值" style="flex:1"><input value="'+esc(s.label||'')+'" data-stat-label="'+i+'" placeholder="标签" style="flex:2"><button class="btn btn-danger btn-sm" onclick="removeStat('+i+')" style="flex-shrink:0">✕</button></div>').join('');
+const certs=(c.certifications||[]).map((cert,i)=>'<div style="display:flex;gap:.5rem;margin-bottom:.5rem"><input value="'+esc(cert||'')+'" data-cert="'+i+'" placeholder="认证名称" style="flex:1"><button class="btn btn-danger btn-sm" onclick="removeCert('+i+')" style="flex-shrink:0">✕</button></div>').join('');
+document.getElementById('company-form-container').innerHTML=
+'<div class="form-group"><label>公司名称 *</label><input id="comp-name" value="'+esc(c.name||'')+'"></div>'+
+'<div class="form-group"><label>英文名称</label><input id="comp-nameEn" value="'+esc(c.nameEn||'')+'"></div>'+
+'<div class="form-group"><label>品牌名称</label><input id="comp-brand" value="'+esc(c.brand||'')+'"></div>'+
+'<div class="form-group"><label>公司简介（简短）</label><textarea id="comp-desc" rows="3">'+esc(c.description||'')+'</textarea></div>'+
+'<div class="form-group"><label>公司简介（详细）</label><textarea id="comp-descFull" rows="5">'+esc(c.descriptionFull||'')+'</textarea></div>'+
+'<div class="form-group"><label>公司地址</label><input id="comp-address" value="'+esc(c.address||'')+'"></div>'+
+'<div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem"><div class="form-group"><label>电话</label><input id="comp-phone" value="'+esc(c.phone||'')+'"></div><div class="form-group"><label>邮箱</label><input id="comp-email" value="'+esc(c.email||'')+'"></div></div>'+
+'<div class="form-group"><label>网站/店铺</label><input id="comp-website" value="'+esc(c.website||'')+'"></div>'+
+'<div class="card" style="margin-bottom:1rem"><div class="card-header">📊 数据统计 <button class="btn btn-outline btn-sm" onclick="addStat()">+ 添加</button></div><div style="padding:1rem" id="stats-container">'+(stats||'<p class="text-muted">暂无统计数据</p>')+'</div></div>'+
+'<div class="card" style="margin-bottom:1rem"><div class="card-header">🏅 资质认证 <button class="btn btn-outline btn-sm" onclick="addCert()">+ 添加</button></div><div style="padding:1rem" id="certs-container">'+(certs||'<p class="text-muted">暂无认证信息</p>')+'</div></div>'+
+'<div class="form-actions"><button class="btn btn-gold" onclick="saveCompany()">💾 保存公司信息</button></div>';
+}
+async function saveCompany(){
+const statEls=document.querySelectorAll('[data-stat-number]');
+const stats=[];statEls.forEach(el=>{const i=parseInt(el.dataset.statNumber);if(!stats[i])stats[i]={};if(el.dataset.statNumber!==undefined)stats[i].number=el.value;});
+document.querySelectorAll('[data-stat-label]').forEach(el=>{const i=parseInt(el.dataset.statLabel);if(!stats[i])stats[i]={};stats[i].label=el.value;});
+stats.filter(Boolean).forEach(s=>{if(!s.number&&!s.label)stats.splice(stats.indexOf(s),1);});
+const certEls=document.querySelectorAll('[data-cert]');
+const certs=[];certEls.forEach(el=>{const v=el.value.trim();if(v)certs.push(v);});
+const d={name:document.getElementById('comp-name').value,nameEn:document.getElementById('comp-nameEn').value,brand:document.getElementById('comp-brand').value,description:document.getElementById('comp-desc').value,descriptionFull:document.getElementById('comp-descFull').value,address:document.getElementById('comp-address').value,phone:document.getElementById('comp-phone').value,email:document.getElementById('comp-email').value,website:document.getElementById('comp-website').value,stats:stats.filter(s=>s.number||s.label),certifications:certs};
+await fetch('/api/company',{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(d)});
+currentData.company=d;renderCompanyForm();showToast('公司信息已保存 ✅');
+}
+
+function renderInquiries(){
+document.getElementById('inquiries-table').innerHTML=currentData.inquiries.slice().reverse().map(i=>'<tr><td style="white-space:nowrap">'+new Date(i.time).toLocaleString('zh-CN')+'</td><td>'+esc(i.name)+'</td><td>'+esc(i.company||'-')+'</td><td>'+esc(i.email||'-')+'</td><td>'+esc(i.interest||'-')+'</td><td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+esc(i.message||'')+'</td></tr>').join('')||'<tr><td colspan="6" class="text-muted" style="text-align:center;padding:2rem">暂无咨询记录</td></tr>';
+}
+
+function esc(s){return(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+
+// Stats & Certs helper functions
+function addStat(){
+const c=currentData.company;if(!c.stats)c.stats=[];
+c.stats.push({number:'',label:''});renderCompanyForm();
+}
+function removeStat(i){
+if(!confirm('确定删除该统计数据？'))return;
+currentData.company.stats.splice(i,1);renderCompanyForm();
+}
+function addCert(){
+const c=currentData.company;if(!c.certifications)c.certifications=[];
+c.certifications.push('');renderCompanyForm();
+}
+function removeCert(i){
+if(!confirm('确定删除该认证？'))return;
+currentData.company.certifications.splice(i,1);renderCompanyForm();
+}
+
+// ===== Brand Management =====
+function renderBrands(){
+document.getElementById('brands-table').innerHTML=currentData.brands.map((b,i)=>'<tr><td>'+(b.id||i+1)+'</td><td>'+esc(b.name||'')+'</td><td>'+esc(b.nameEn||'')+'</td><td>'+esc(b.slogan||'')+'</td><td><button class="btn btn-outline btn-sm" onclick="editBrand('+i+')">✏️ 编辑</button> <button class="btn btn-danger btn-sm" onclick="deleteBrand('+i+')">🗑 删除</button></td></tr>').join('')||'<tr><td colspan="5" class="text-muted" style="text-align:center;padding:2rem">暂无品牌</td></tr>';
+}
+function addBrand(){
+document.getElementById('brand-edit-id').value='';
+['brand-name','brand-nameEn','brand-slogan','brand-desc','brand-features','brand-featureDescs','brand-categories','brand-image'].forEach(id=>document.getElementById(id).value='');
+document.getElementById('brand-form-title').textContent='添加品牌';
+document.getElementById('brand-form').style.display='block';document.getElementById('brand-form').scrollIntoView({behavior:'smooth'});
+}
+function editBrand(i){
+const b=currentData.brands[i];document.getElementById('brand-edit-id').value=i;
+document.getElementById('brand-name').value=b.name||'';document.getElementById('brand-nameEn').value=b.nameEn||'';
+document.getElementById('brand-slogan').value=b.slogan||'';
+document.getElementById('brand-desc').value=b.description||'';
+document.getElementById('brand-features').value=(b.features||[]).join(', ');
+document.getElementById('brand-featureDescs').value=(b.featureDescs||[]).join(', ');
+document.getElementById('brand-categories').value=(b.categories||[]).join(', ');
+document.getElementById('brand-image').value=b.image||'';
+document.getElementById('brand-form-title').textContent='编辑品牌';
+document.getElementById('brand-form').style.display='block';document.getElementById('brand-form').scrollIntoView({behavior:'smooth'});
+}
+function deleteBrand(i){if(!confirm('确定删除该品牌？'))return;currentData.brands.splice(i,1);saveBrandsData();}
+function cancelBrandForm(){document.getElementById('brand-form').style.display='none';}
+async function saveBrand(){
+const idx=document.getElementById('brand-edit-id').value;
+const name=document.getElementById('brand-name').value;
+if(!name){showToast('请输入品牌名称','error');return;}
+const b={
+id:idx===''?currentData.brands.length+1:currentData.brands[idx].id,
+name:name,nameEn:document.getElementById('brand-nameEn').value,
+slogan:document.getElementById('brand-slogan').value,
+description:document.getElementById('brand-desc').value,
+features:document.getElementById('brand-features').value.split(',').map(s=>s.trim()).filter(Boolean),
+featureDescs:document.getElementById('brand-featureDescs').value.split(',').map(s=>s.trim()).filter(Boolean),
+categories:document.getElementById('brand-categories').value.split(',').map(s=>s.trim()).filter(Boolean),
+image:document.getElementById('brand-image').value
+};
+if(idx==='')currentData.brands.push(b);else currentData.brands[parseInt(idx)]=b;
+await saveBrandsData();cancelBrandForm();
+}
+async function saveBrandsData(){
+await fetch('/api/brands',{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({brands:currentData.brands})});
+renderBrands();showToast('品牌数据已保存 ✅');
+}
+
+// ===== Theme Management =====
+const presetThemes=[
+{name:'深色奢华',colors:{primary:'#c9a96e',primaryLight:'#d4af37',bg:'#0f1923',bgCard:'#1a2740',bgSurface:'#152032',bgFooter:'#0a121b',bannerBg:'#0f1923',navbarBg:'#0f1923',textPrimary:'#e8e3dc',textSecondary:'#8b9dc3'}},
+{name:'浅色商务',colors:{primary:'#1a56db',primaryLight:'#3b82f6',bg:'#f8fafc',bgCard:'#ffffff',bgSurface:'#f1f5f9',bgFooter:'#1e293b',bannerBg:'#1e3a5f',navbarBg:'#1e3a5f',textPrimary:'#1e293b',textSecondary:'#64748b'}},
+{name:'温暖金色',colors:{primary:'#b45309',primaryLight:'#d97706',bg:'#fef3c7',bgCard:'#ffffff',bgSurface:'#fffbeb',bgFooter:'#451a03',bannerBg:'#451a03',navbarBg:'#451a03',textPrimary:'#451a03',textSecondary:'#78350f'}},
+{name:'清新蓝色',colors:{primary:'#0284c7',primaryLight:'#38bdf8',bg:'#f0f9ff',bgCard:'#ffffff',bgSurface:'#e0f2fe',bgFooter:'#0c4a6e',bannerBg:'#0c4a6e',navbarBg:'#0c4a6e',textPrimary:'#0c4a6e',textSecondary:'#475569'}},
+{name:'优雅玫瑰',colors:{primary:'#be185d',primaryLight:'#db2777',bg:'#fff1f2',bgCard:'#ffffff',bgSurface:'#ffe4e6',bgFooter:'#4c0519',bannerBg:'#4c0519',navbarBg:'#4c0519',textPrimary:'#4c0519',textSecondary:'#9d174d'}},
+{name:'暗夜极简',colors:{primary:'#a78bfa',primaryLight:'#c4b5fd',bg:'#0f0f1a',bgCard:'#1a1a2e',bgSurface:'#16162a',bgFooter:'#0a0a14',bannerBg:'#0f0f1a',navbarBg:'#0f0f1a',textPrimary:'#e2e8f0',textSecondary:'#94a3b8'}}
+];
+const themeFields=['primary','primaryLight','bg','bgCard','bgSurface','bgFooter','bannerBg','navbarBg','textPrimary','textSecondary'];
+const themeMap={primary:'t-primary',primaryLight:'t-primaryLight',bg:'t-bg',bgCard:'t-bgCard',bgSurface:'t-bgSurface',bgFooter:'t-bgFooter',bannerBg:'t-bannerBg',navbarBg:'t-navbarBg',textPrimary:'t-textPrimary',textSecondary:'t-textSecondary'};
+let currentTheme={};
+
+async function loadThemeData(){
+try{const r=await fetch('/api/theme');if(r.ok)currentTheme=await r.json()||{};}catch(e){}
+if(!currentTheme.primary)currentTheme=presetThemes[0].colors;
+}
+function renderThemePage(){
+// Logo preview
+const logoEl=document.getElementById('logo-preview');
+const btnRemove=document.getElementById('btn-remove-logo');
+if(currentTheme.logo){
+logoEl.innerHTML='<img src="'+currentTheme.logo+'" style="width:100%;height:100%;object-fit:cover" onerror="this.parentElement.innerHTML=\'<span style=font-size:1.5rem;color:var(--gold);font-weight:700>乐</span>\'">';
+if(btnRemove)btnRemove.style.display='';
+}else{
+logoEl.innerHTML='<span style="font-size:1.5rem;color:var(--gold);font-weight:700">乐</span>';
+if(btnRemove)btnRemove.style.display='none';
+}
+// Presets
+const presetEl=document.getElementById('preset-themes');
+presetEl.innerHTML=presetThemes.map((t,i)=>'<div class="preset-card" onclick="applyPreset('+i+')" style="cursor:pointer;padding:.75rem 1rem;border:1px solid var(--border);border-radius:6px;text-align:center;min-width:100px"><div style="display:flex;gap:4px;margin-bottom:.5rem;justify-content:center"><span style="width:18px;height:18px;border-radius:3px;background:'+t.colors.primary+'"></span><span style="width:18px;height:18px;border-radius:3px;background:'+t.colors.bg+'"></span><span style="width:18px;height:18px;border-radius:3px;background:'+t.colors.textPrimary+'"></span></div><span style="font-size:.8rem">'+t.name+'</span></div>').join('');
+// Color inputs
+Object.entries(themeMap).forEach(([k,id])=>{
+const el=document.getElementById(id);if(!el)return;
+el.value=currentTheme[k]||'';
+el.onchange=function(){document.getElementById('hex-'+k).textContent=this.value;};
+document.getElementById('hex-'+k).textContent=currentTheme[k]||'';
+});
+}
+function applyPreset(i){
+const t=presetThemes[i];
+Object.entries(t.colors).forEach(([k,v])=>{
+currentTheme[k]=v;
+const el=document.getElementById(themeMap[k]);if(el){el.value=v;document.getElementById('hex-'+k).textContent=v;}
+});
+applyThemePreview();
+}
+function applyThemePreview(){
+themeFields.forEach(k=>{
+const el=document.getElementById(themeMap[k]);if(el)currentTheme[k]=el.value;
+});
+// Update admin page colors immediately
+const root=document.documentElement;
+const t=currentTheme;
+root.style.setProperty('--bg',t.bg);
+root.style.setProperty('--card',t.bgCard);
+root.style.setProperty('--surface',t.bgSurface);
+root.style.setProperty('--gold',t.primary);
+root.style.setProperty('--gold-light',t.primaryLight);
+root.style.setProperty('--text',t.textPrimary);
+root.style.setProperty('--text2',t.textSecondary);
+root.style.setProperty('--border','rgba('+hexToRgb2(t.primary).join(',')+',0.15)');
+root.style.setProperty('--border-gold','rgba('+hexToRgb2(t.primary).join(',')+',0.35)');
+showToast('预览已更新 👁 点击"预览网站"查看效果','success');
+}
+async function saveTheme(){
+themeFields.forEach(k=>{
+const el=document.getElementById(themeMap[k]);if(el)currentTheme[k]=el.value;
+});
+await fetch('/api/theme',{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(currentTheme)});
+applyThemePreview();showToast('主题已保存 ✅ 刷新前台查看效果');
+}
+function hexToRgb2(h){const r=/^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(h);return r?[parseInt(r[1],16),parseInt(r[2],16),parseInt(r[3],16)]:[201,169,110];}
+
+async function uploadLogo(){
+const input=document.getElementById('logo-input');
+const file=input.files[0];
+if(!file){showToast('请先选择图片文件','error');return;}
+if(file.size>2*1024*1024){showToast('文件不能超过2MB','error');return;}
+const reader=new FileReader();
+reader.onload=async function(){
+const base64=reader.result.split(',')[1];
+try{
+const r=await fetch('/api/upload',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:file.name,data:base64})});
+const d=await r.json();
+if(d.success){currentTheme.logo=d.path;showToast('Logo上传成功 ✅');renderThemePage();}else{showToast('上传失败','error');}
+}catch(e){showToast('上传失败','error');}
+};
+reader.readAsDataURL(file);
+}
+function removeLogo(){
+currentTheme.logo='';renderThemePage();showToast('Logo已清除，保存后生效');
+}
+
+(async function(){await loadAllData();renderDashboard();})();
+</script>
+</body>
+</html>

@@ -1,0 +1,15 @@
+{
+  "inquiries": [
+    {
+      "name": "测试用户",
+      "company": "测试公司",
+      "email": "test@test.com",
+      "phone": "13800138000",
+      "interest": "化妆棉",
+      "message": "这是一条测试咨询",
+      "id": 1780381990038,
+      "time": "2026-06-02T06:33:10.038Z",
+      "status": "new"
+    }
+  ]
+}
