@@ -1,4 +1,4 @@
-# 广州市乐莎美容用具有限公司 - 企业官网
+企业官网
 
 ## 🚀 快速部署到 GitHub Pages
 
@@ -22,7 +22,7 @@ git init
 git add .
 
 # 首次提交
-git commit -m "首次提交：乐莎美容企业官网"
+git commit -m "首次提交：企业官网"
 
 # 关联远程仓库（替换 YOUR_USERNAME 为你的 GitHub 用户名）
 git remote add origin https://github.com/YOUR_USERNAME/lesha-website.git
