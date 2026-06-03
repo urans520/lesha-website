@@ -1,0 +1,79 @@
+@import "tailwindcss";
+
+@theme inline {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", monospace;
+  
+  --color-background: hsl(40 20% 97%);
+  --color-foreground: hsl(30 10% 15%);
+  
+  --color-card: hsl(40 25% 99%);
+  --color-card-foreground: hsl(30 10% 15%);
+  
+  --color-primary: hsl(30 15% 20%);
+  --color-primary-foreground: hsl(40 20% 98%);
+  
+  --color-secondary: hsl(35 15% 92%);
+  --color-secondary-foreground: hsl(30 15% 25%);
+  
+  --color-muted: hsl(35 10% 93%);
+  --color-muted-foreground: hsl(30 10% 45%);
+  
+  --color-accent: hsl(15 45% 55%);
+  --color-accent-foreground: hsl(0 0% 100%);
+  
+  --color-destructive: hsl(0 84% 60%);
+  --color-destructive-foreground: hsl(0 0% 98%);
+  
+  --color-border: hsl(35 15% 88%);
+  --color-input: hsl(35 15% 88%);
+  --color-ring: hsl(30 15% 40%);
+  
+  --radius: 0.625rem;
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+}
+
+/* 自定义滚动条 */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-muted);
+}
+
+::-webkit-scrollbar-thumb {
+  background: color-mix(in srgb, var(--color-muted-foreground) 30%, transparent);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: color-mix(in srgb, var(--color-muted-foreground) 50%, transparent);
+}
+
+/* 文字平衡优化 */
+h1, h2, h3, h4, h5, h6 {
+  text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
+}

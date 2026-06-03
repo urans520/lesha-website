@@ -2,11 +2,39 @@
   "name": "lesha-website",
   "version": "1.0.0",
   "description": "广州市乐莎美容用具有限公司 - 企业官网",
-  "main": "server.js",
+  "private": true,
   "scripts": {
-    "start": "node server.js",
-    "init": "node init.js"
+    "dev": "next dev --turbopack",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
   },
-  "keywords": ["lesha", "beauty", "website"],
-  "license": "UNLICENSED"
+  "keywords": [
+    "lesha",
+    "beauty",
+    "website"
+  ],
+  "license": "UNLICENSED",
+  "dependencies": {
+    "@tailwindcss/postcss": "^4.3.0",
+    "better-auth": "^1.6.14",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "drizzle-orm": "^0.45.2",
+    "lucide-react": "^1.17.0",
+    "next": "^16.2.7",
+    "pg": "^8.21.0",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7",
+    "tailwind-merge": "^3.6.0"
+  },
+  "devDependencies": {
+    "@types/pg": "^8.20.0",
+    "@types/react": "^19.2.16",
+    "@types/react-dom": "^19.2.3",
+    "autoprefixer": "^10.5.0",
+    "postcss": "^8.5.15",
+    "tailwindcss": "^4.3.0",
+    "typescript": "^6.0.3"
+  }
 }
