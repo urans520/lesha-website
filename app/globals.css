@@ -1,67 +1,40 @@
 @import "tailwindcss";
 
-@layer base {
-  :root {
-    /* 优雅的米白色调 - 适合美容行业的温暖专业感 */
-    --background: 40 20% 97%;
-    --foreground: 30 10% 15%;
-
-    --card: 40 25% 99%;
-    --card-foreground: 30 10% 15%;
-
-    --primary: 30 15% 20%;
-    --primary-foreground: 40 20% 98%;
-
-    --secondary: 35 15% 92%;
-    --secondary-foreground: 30 15% 25%;
-
-    --muted: 35 10% 93%;
-    --muted-foreground: 30 10% 45%;
-
-    --accent: 15 45% 55%;
-    --accent-foreground: 0 0% 100%;
-
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 0 0% 98%;
-
-    --border: 35 15% 88%;
-    --input: 35 15% 88%;
-    --ring: 30 15% 40%;
-
-    --radius: 0.625rem;
-  }
-
-  .dark {
-    --background: 30 10% 10%;
-    --foreground: 40 15% 95%;
-
-    --card: 30 10% 12%;
-    --card-foreground: 40 15% 95%;
-
-    --primary: 40 20% 95%;
-    --primary-foreground: 30 10% 10%;
-
-    --secondary: 30 10% 18%;
-    --secondary-foreground: 40 15% 90%;
-
-    --muted: 30 10% 20%;
-    --muted-foreground: 40 10% 60%;
-
-    --accent: 15 45% 55%;
-    --accent-foreground: 0 0% 100%;
-
-    --destructive: 0 62% 50%;
-    --destructive-foreground: 0 0% 98%;
-
-    --border: 30 10% 22%;
-    --input: 30 10% 22%;
-    --ring: 40 15% 50%;
-  }
+@theme inline {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", monospace;
+  
+  --color-background: hsl(40 20% 97%);
+  --color-foreground: hsl(30 10% 15%);
+  
+  --color-card: hsl(40 25% 99%);
+  --color-card-foreground: hsl(30 10% 15%);
+  
+  --color-primary: hsl(30 15% 20%);
+  --color-primary-foreground: hsl(40 20% 98%);
+  
+  --color-secondary: hsl(35 15% 92%);
+  --color-secondary-foreground: hsl(30 15% 25%);
+  
+  --color-muted: hsl(35 10% 93%);
+  --color-muted-foreground: hsl(30 10% 45%);
+  
+  --color-accent: hsl(15 45% 55%);
+  --color-accent-foreground: hsl(0 0% 100%);
+  
+  --color-destructive: hsl(0 84% 60%);
+  --color-destructive-foreground: hsl(0 0% 98%);
+  
+  --color-border: hsl(35 15% 88%);
+  --color-input: hsl(35 15% 88%);
+  --color-ring: hsl(30 15% 40%);
+  
+  --radius: 0.625rem;
 }
 
 @layer base {
   * {
-    @apply border-border;
+    border-color: var(--color-border);
   }
 
   html {
@@ -69,7 +42,10 @@
   }
 
   body {
-    @apply bg-background text-foreground antialiased;
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
     font-feature-settings: "rlig" 1, "calt" 1;
   }
 }
@@ -81,16 +57,16 @@
 }
 
 ::-webkit-scrollbar-track {
-  background: hsl(var(--muted));
+  background: var(--color-muted);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: hsl(var(--muted-foreground) / 0.3);
+  background: color-mix(in srgb, var(--color-muted-foreground) 30%, transparent);
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: hsl(var(--muted-foreground) / 0.5);
+  background: color-mix(in srgb, var(--color-muted-foreground) 50%, transparent);
 }
 
 /* 文字平衡优化 */
